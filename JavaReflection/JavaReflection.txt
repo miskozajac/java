@@ -1,0 +1,108 @@
+java reflection je vlastne jazyk v Java Virtual Machine vdaka ktorému máme pristup k informaciam o klasach a objektoch počas behu programu
+-tieto fičury sú pre nás dostupne cez Reflection API (obsiahnute v jdk)
+!!!!-pristup cez package java.lang.reflect!!!!
+
+-viem takto napojit rôzne softwarove componenty dokopy za behu,
+-vytvoriť nove program flows
+-vytvarat algoritmi ktore sa dynamicky adaptuju a menia svoje chovanie na zaklade typu objektu alebo klasy s ktorou pracuju
+
+KOD bez Reflection: data na vstupe - nejake operacie - output
+KOD S Reflection: na vstupe data aj celý kod aplikacie - analyza,operacie - output
+-vlastne vdaka reflection môžme analyzovat a pracovat s celym kodom za behu
+-vdaka reflection sa daju vytvorit veci ktore by inak boli nemožne (alebo len ťažie zapisatelne??)
+
+PRIKLADY:
+JUnit testy
+Dependency Injection (Spring)
+
+Ak idem pouzivat vo svojom programe reflection tak začina sa s klasou ktora sa oznacuje Entry Point
+Class<?> je vstup pre pouzitie reflection
+-vzdy potrebujeme zistit klasu daneho objektu, 3 spôsoby:
+-Object.getClass
+-pridanie .class na any object alebo aj primitivny typ
+-Class.forName(..) - "menoPackagu.MenoKlasy", ak chcem klasu vrámci klasy tak to je: "menoPackagu.MenoHlavnejKlasy$MenoKlasy" plus pridat thwors classnotfoundexception
+
+<T> extends <?> wildcard
+
+klasa Constractors: vo vytvorInstanciu ukazane ako použiť/využiť T
+
+SEKCIA 2.7 web.WebService a ServerConfiguration šlo o to ako vytvoriť klasu singleton, takú čo bude mať stále iba jednu instanciu.
+
+getDeclaredConstructor sú všetky len občas treba nastavit Acsesibility
+getConstructor sú len public
+
+SEKCIA 2.8 hra package game a init (rovnaka uroven)
+    -ide o to že mám na sebe závislé klasy a v konstruktoroch ziadnej znich nepísem prem = new Prem..()
+    -vsade posielam objekt cez construktor parameter.
+    -pouzitim java reflection sa dostanem k najhlbsej klase to je taka ktora už nemá dependecies, jej vyrovim instanciu a spätne ponaplnam vsetky ostatne depenedncie
+    v init package je len Main klasa, tam urobime inicializaciu a spustime hru.
+    samostatny game package obsahuje klasy logiky hry
+
+    Hlavna klasa je TicTacToeGame, má private konstruktor a jeho parametre sú klasy privatne pre daný package
+
+    REKURZIA funguje tak že predchadzajuce vstupy čakaju v poradí, ked sa dokončí posledny vstup pokračuje sa s predposlednym,
+    ked sa dokonči predposledny pokračuje sa k predpredposlednemu až kým sa nedokončí prvý
+
+    -keby to nespravime takto musel by som ručne povytvarat vsetky instancie a postupne naplnat potrebne konstruktory a vytvarat objekty ktore by som potom
+    mohol vlozit do TicTacToeGame konstruktora
+
+SEKCIA 3.9 Java niekedy vytvára aj tzv synteticke fieldy (atributy v klase) napr inner klasa má pristup k atributom rodiča lebo java v inner klase vytvorí premennú
+this0 (alebo niečo take) ak v inner klase referencujem niečo z rodiča, napr enum má okrem svojich typov aj syntenicku premennu $values.
+Ked vdaka reflexii prechadzame cez fieldy klasy?
+Field f : klas.getDeclaredFields() môžme sa spýtať či f.isSynthetic()
+-field je atribut klasy
+
+f.getName vrati nazov fieldu
+f.getType vrati Class<?> reprezentaciu navratovej hodnoty, aj objekt môze byť getType
+f.getType.getName vrati typ fieldu (string, double...)
+
+f.get(objekt(instancia) klasy) - vrati hodnotu fieldu
+
+SEKCIA 3.10
+    vytvorenie json reprezentacie klasy
+
+SEKCIA 3.12 reflection s Arrays
+
+class.getComponentType vráti akeho typu je dané pole, ak class neni pole tak metoda vrati null
+napr int[].class.getComponentType() vrati int
+
+Array.getLenght vrati dlzku pola
+Array.get(o,i) vrati hodnotu na indexe i objektu (pola) o
+
+SEKCIA 4 - naplnanie fieldov a polí
+    príklad na naplnenie pola:
+
+    //T je nejaky objekt, instancia nejakej klasy
+    public <T> setFieldValue(T instance) {
+        Class<T> klas = instance.getClass();
+        Field f = klas.getDecladerField("fieldName");
+        f.setAccessible(true); - ak je field static final tak ani accessible na true nepomôze
+        f.set(instance,value);
+            ak je field FINAL a nastavim mu hodnotu priamo hore kde ho definujem tak tá hodnota sa konfigom neprepíše.
+            ak túto hodnotu ale nastavím (natvrdo) v konstruktore (v nasom pripade je konst prazdny takže nie z parametra pri instancii)
+                tak sa prepíše tou v parametre
+            ak je field static final tak compiler vyhohi illegal access exception, nedá sa nastavit staticka final premenna
+            -ak je len static tak sa dá a prepisuje sa configom
+    }
+
+    Deserializers - funkcia ktorá zobere nejak definovane dáta a vytvorí z nich java object (napr ako MAIS import z csv)
+
+    Pole sa dá vytvorit aj:
+    Array.newInstance(Class<?> typ, dlzkaPola)
+    Array.newInstance(String.class, 5) == new String[5]
+    -takto budem vediet vytvorit pole rôznych typov objektov
+
+    Array.set(vytvorenePole,index,hodnota)
+
+SEKCIA 5 metody klasy
+    Class.getDeclaredMethods
+	19. koniec zobrazenie metod na najdene vsetkych fieldov, metod, construktorov teda aj rodičov. 
+
+
+
+
+
+
+
+
+
