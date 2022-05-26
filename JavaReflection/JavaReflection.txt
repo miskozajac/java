@@ -96,8 +96,15 @@ SEKCIA 4 - naplnanie fieldov a polí
 
 SEKCIA 5 metody klasy
     Class.getDeclaredMethods
-	19. koniec zobrazenie metod na najdene vsetkych fieldov, metod, construktorov teda aj rodičov. 
+	19. koniec zobrazenie metod na najdene vsetkych fieldov, metod, construktorov teda aj rodičov.
+	20. Ako zavolať metodu pomocou java reflection
 
+	Arrays.asList() môžem pisať objekty rovno do () a len oddelit ciarkou
+
+SEKCIA 6 MODIFIERS
+    -private public protected abstract interface static final synchronize
+
+    KLASA KTORA IMPLEMENTUJE SERIALIZABLE MôZE BYT PREROBENA NA byte[] a teda poslana po sieti alebo zapisana do db
 
 
 
