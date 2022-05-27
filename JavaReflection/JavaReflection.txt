@@ -103,13 +103,30 @@ SEKCIA 5 metody klasy
 
 SEKCIA 6 MODIFIERS
     -private public protected abstract interface static final synchronize
+    klas.getModifiers() vrati jedno int cislo ktore reprezentuje modifiers klasy
 
     KLASA KTORA IMPLEMENTUJE SERIALIZABLE MôZE BYT PREROBENA NA byte[] a teda poslana po sieti alebo zapisana do db
 
+    každý java interface je na pozadí aj abstract
 
+& hodnotí oba výrazy
+&& druhy nehodnotí ak je prvý false
 
+| hodnotí oba výrazy
+|| hodnotí druhý len ak prvý je false
 
+SEKCIA 7 ANOTACIE
+-anotacie nemaju funkcionalitu? sú to akoby len komenty ale veci od nich vedia závisieť?
+-meta anotacia anotuje anotaciu
+vytvorenie anotacie:
+-vyberiem new class a typ anotation
+@interface NazovAnotacie {
+    pole1 default Hodnota;
+    pole2;
+    ...
+}
+-pri pouziti tejto anotacie musim definovať pole2
 
+at runtime môzme pouzit len anotacie s RetentionPolicy.RUNTIME
 
-
-
+-niečo popisane nad ConfigsLoader
