@@ -26,13 +26,29 @@ package anotacie.app.databases;
 
 import anotacie.annotations.InitializerClass;
 import anotacie.annotations.InitializerMethod;
+import anotacie.annotations.RetryAnotation;
+
+import java.io.IOException;
 
 @InitializerClass
 public class DatabaseConnection {
 
+    private int i = 0;
+
+
+    @RetryAnotation(
+            dlzkaCakania = 1000,
+            sprava = "Nepripojil si sa",
+            testExceptions = IOException.class,
+            pocetOpakovani = 5)
     @InitializerMethod
-    public void connectToDatabase1() {
+    public void connectToDatabase1() throws IOException {
         System.out.println("Connecting to database 1");
+        if (i < 5) {
+            i++;
+            throw new IOException();
+        }
+        System.out.println("Connecting to database 1 success");
     }
 
     @InitializerMethod

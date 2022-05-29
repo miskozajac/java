@@ -126,7 +126,19 @@ vytvorenie anotacie:
     ...
 }
 -pri pouziti tejto anotacie musim definovať pole2
+-ak do anotacie chcem priamo zadávať hodnoty do {} alebo len jednu a nedefinovať aká to je premenna anotacie tak v anotacii sa táto metoda/premenna musí volať value
+-inak si ju môzem nazvať ako chcem len potom pri pouziti anotacie musim dať napr h="fs" alebo h={"fdggdf","fdgd"}
+-zdá sa že vsetko čo zadávam do anotacie musi byť ukončene s (), neviem či sú to vsetko metody
 
 at runtime môzme pouzit len anotacie s RetentionPolicy.RUNTIME
 
 -niečo popisane nad ConfigsLoader
+
+VYTVORENIE JARKA:
+-jeho spustenie mi nefunguje, možno preto lebo nemam projekt anotacii v separatnom projekte ale jarko takto:
+File - project structure - artifacts - + (pridať nove) - jar s dependecies - vybrat hlavnu main klasu - ok aplly ok
+potom
+Build - build artefacts - zvoliť náš
+-ulozi sa do out/artifacts
+
+pole sa dá zaobaliť aj do Set.of()
