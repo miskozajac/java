@@ -142,3 +142,30 @@ Build - build artefacts - zvoliť náš
 -ulozi sa do out/artifacts
 
 pole sa dá zaobaliť aj do Set.of()
+
+SEKCIA 7 28,29 anotovanie parametrov a fieldov
+-anotacie môžem vytvoriť aj v klase, budem ich mať pokope
+
+OPAKOVATELNE ANOTACIE
+-napr ExecuteOnSchedule by som chcel dať dva krát nad metodu, napr cez tyzden o 10tej, cez vikend o 12tej
+VYTVORENIE:
+    -vytvorim anotaciu Rola nad ktoru dám anotaciu @Repeatable(param) a ako param zadám klasu dalsej anotacie
+    ktorá bude mať v sebe pole anotacii Rola. Napr:
+
+    @Repeatable(Roles.class)
+    public @interfase Rola {
+        Type value(); (Type asi enum)
+    }
+
+    public @interface Roles {
+        Rola[] value();
+    }
+
+    -teraz môžem anotaciu Rola dať nad metodu (ako k čomu ju určím) viac krát
+    pri compilovani to kompiler prepíše do anotacie @Roles({........})
+
+    -@Retention stačí dať nad container anotaciu, teda Roles
+    -@Target už treba dať na oba
+
+    ZAUJIMAVE: metody isAnnotationPresent (vrati false) a getAnnotation (vrati null) nefunguju na repeatable anotaciu
+    -jasne lebo compiler ich prehodí za tú kontainer anotaciu ktorá obsahuje pole našej anotacie
