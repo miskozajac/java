@@ -1,9 +1,6 @@
 package anotacie;
 
-import anotacie.annotations.InitializerClass;
-import anotacie.annotations.InitializerMethod;
-import anotacie.annotations.RetryAnotation;
-import anotacie.annotations.ScanPackages;
+import anotacie.annotations.*;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -11,19 +8,85 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@ScanPackages({"app","app.configs","app.databases"})
+@ScanPackages({"app","app.configs","app.databases","loader"})
 public class MainAnotacie {
 
     public static void main(String[] args) throws Throwable {
-        inicializuj();
+        //inicializuj();
+        schedule();
     }
 
+    //SEKCIA 7 30 repeatable anotations
+
+    //metoda ktora vyzbiera metody anotovane so ExecuteOnSchedule
+    public static void schedule() throws URISyntaxException, IOException, ClassNotFoundException {
+        //najskôr zistime ktore package chceme skenovat
+        ScanPackages sp = MainAnotacie.class.getAnnotation(ScanPackages.class);
+
+        //ak anotacia nieje vyjdeme z metody
+        if (sp == null || sp.value().length == 0) {
+            return;
+        }
+        //pouzijeme metody z predchadzaujich lekcii, najdeme klasy a z nic potom metody
+        List<Class<?>> vsetkyKlasyNaScan = getVsetkyKlasy(sp.value());
+
+        List<Method> metodyNaSchedule = getScheduledMetody(vsetkyKlasyNaScan);
+
+        for (Method m : metodyNaSchedule) {
+            executeScheduleMetodu(m);
+        }
+    }
+
+    //vykonanie metody podla schedule, volane v zakladnej schedule() metode
+    private static void executeScheduleMetodu(Method m) {
+        ExecuteOnSchedule[] schedules = m.getAnnotationsByType(ExecuteOnSchedule.class);
+
+        //JDK vstavany helper pre spustanie scheduled metod
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
+        for (ExecuteOnSchedule anot : schedules) {
+            //() -> znamena že vytvorenie prveho argumentu delegujeme metode runableSchedul
+            //nechapem ako to funguje
+            service.scheduleAtFixedRate(() -> runableSchedul(m),anot.delaySeconds(), anot.periodSeconds(), TimeUnit.SECONDS);
+        }
+    }
+
+    private static void runableSchedul(Method m) {
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+        System.out.println(sdf.format(d));
+
+        try {
+            m.invoke(null);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static List<Method> getScheduledMetody (List<Class<?>> klasy) {
+        List<Method> metodyNaSchedule = new ArrayList<>();
+
+        for (Class<?> k : klasy) {
+            if (k.isAnnotationPresent(ScheduledExecutorClass.class)) {
+                for (Method m : k.getDeclaredMethods()) {
+                    //metoda getAnnotationsByType vráti prazdny list ak je anotacia nepritomna
+                    if (m.getAnnotationsByType(ExecuteOnSchedule.class).length != 0) {
+                        metodyNaSchedule.add(m);
+                    }
+                }
+            }
+        }
+
+        return metodyNaSchedule;
+    }
     public static List<Class<?>> getVsetkyKlasy(String... packages) throws URISyntaxException, IOException, ClassNotFoundException {
         List<Class<?>> klasy = new ArrayList<>();
 
