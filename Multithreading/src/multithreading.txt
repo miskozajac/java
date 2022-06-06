@@ -1,0 +1,24 @@
+Multithreading je dost ine ako klasicke, mnohe veci sa tam robia inak ako som zvyknútý
+1. responzivnost, rychlo odpovede resp reakcie na akciu uzivatela
+    -keby je len jedno vlakno poziadavka usera sa bude spracovavat az po vybaveni poziadavky predchadzajuceho usera.
+2. zvysenie performance vdaka paralelnemu spustaniu
+    -znie mi to ako to iste ako bod 1
+
+Ked zapnem počítať OS je potiahnutý z disku do pamäte. (asi do ram)
+Ked zapnem aplikaciu OS zoberie túto apku z harddisku a v pamäti vytvorí inštanciu
+    -toto sa volá Process alebo Context
+    -každý proces je uplne izolovany od ostatných procesov
+    PROCESS OBSAHUJE:
+        -nejake metadata napr proces ID
+        -files ktore appka potrebuje na citanie a zapisovanie
+        -kód - instrukcie programu ktore budu vykonane na CPU
+        -data (Heap) ktore appka potrebuje
+        -a minimalne jedno vlakno nazyvane Main Thread
+            -každe vlákno processu má vyšie spomenute veci spoločné ale má vlastný stack aj instruction pointer
+            -každe vlákno vykonava iné instrukcie a ine funkcie
+            Thread obsahuje:
+                -Stack - miesto v pameti kde su ulozene lokalne premenne a kde sú funkcie vykonávané
+                -Insturcion pointer - ukazovatel na dalšiu metódu/instrukciu ktorá sa bude vykonávať
+
+Vlakna sheruju data files a kod, vlastne maju stack a pointer
+
