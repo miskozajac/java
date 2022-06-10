@@ -39,3 +39,24 @@ vytvorenie objektu vlakno nestačí, musime ho začať
 vytvorime class ktora extends Thread
 -staci v nej len overridnuť run metodu
 a potom Thread vlakno = new NewVlakno()
+
+VAULT:
+-akože zlodeji sa snazia otvorit trezor, ak sa im do 10 sekund nepodari prelomiť heslo pride vlakno policajt ktorý
+vlakna zlodejov ukončí
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

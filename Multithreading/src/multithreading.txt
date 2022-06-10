@@ -40,6 +40,8 @@ vytvorime class ktora extends Thread
 -staci v nej len overridnuť run metodu
 a potom Thread vlakno = new NewVlakno()
 
+3. alebo podobne ako bod 1 ale v konstruktore nebude new runnable ale instancia klasy ktora bude implementovat runnable
+
 VAULT:
 -akože zlodeji sa snazia otvorit trezor, ak sa im do 10 sekund nepodari prelomiť heslo pride vlakno policajt ktorý
 vlakna zlodejov ukončí
