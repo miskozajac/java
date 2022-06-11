@@ -40,9 +40,25 @@ vytvorime class ktora extends Thread
 -staci v nej len overridnuť run metodu
 a potom Thread vlakno = new NewVlakno()
 
+3. alebo podobne ako bod 1 ale v konstruktore nebude new runnable ale instancia klasy ktora bude implementovat runnable
+
 VAULT:
 -akože zlodeji sa snazia otvorit trezor, ak sa im do 10 sekund nepodari prelomiť heslo pride vlakno policajt ktorý
 vlakna zlodejov ukončí
+
+SEKCIA 3
+    Test 31 - Vlakno môzem prerusit ak na nom zavolam vlakno.interupt ale funguje to len ak je v run metode daneho vlakna zachytena táto exception
+        -keby je try catch zaobaleni napr vo while (true) tak by sme v catch museli dať aj return aby appka skončila
+    Test 32 - ak nie tak sa v run daneho vlakna môzem pytat: Thread.currentThread.isInterupted, ak ano vtedy sa vykona to čo je v bloku
+    Daemon vlakno - vyssie uvedene vlakna stále vykonavaju svoju loigku aj ked je už main thread skončené.
+        ak nastavime vlakno setDaemon na true (musime to urobiť pred štartom vlákna) tak skončenim hlavneho vlakna sa skončí aj apkka, takže
+        daemon vlákno nezabranuje aplikacii v skončení. Napr ak v Daemon klase neosetríme výpocet bude bežať kým sa nevykoná, ak dane vlákno nastavime na
+        daemon tak sa apka skončí po prejdení main metody
+
+    JOIN Thread
+        -ak pridam join čaká sa v main na skončenie prave spracovavaneho threadu asi,
+        -ak NEpridam join tak ak v čase dotazu v maine dane vlakno este nieje skončene tak v nasom kode sa vypise že sa ešte spracováva
+        -riadok 29 a 59 som pridal ja na testovanie spravania sa plus pridavať/odstranovat riadok 22
 
 
 
