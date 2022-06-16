@@ -64,6 +64,10 @@ SEKCIA 3
         a pokračuje system dalej, (ale to vlákno stale pracuje) ak pre vlákna (alebo len pre to velke) nastavim daemon na true tak prestane pracovať po
         skončení main
 
+SEKCIA 4
+    -vobec nechapem & >> |= teda ziskavanie tých farieb
+    Obrazok načítame ako:
+    BufferedImage sdf = ImageIO.read(new File("cesta k suboru"));
 
 
 
