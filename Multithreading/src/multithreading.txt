@@ -60,6 +60,10 @@ SEKCIA 3
         -ak NEpridam join tak ak v čase dotazu v maine dane vlakno este nieje skončene tak v nasom kode sa vypise že sa ešte spracováva
         -riadok 30 a 60 som pridal ja na testovanie spravania sa plus pridavať/odstranovat riadok 23
 
+        !!!!!!
+        V Sekcii 4 sa ukazalo ze join musim pridať v samostanom for cykle, vyzazne to usetri rychlost
+        !!!!!!
+
         -ak je napr prve cislo velmi velke môžem nastaviť čas čakania do join metody, vtedy sa po tom čase vykašle na čakanie na to vlakno
         a pokračuje system dalej, (ale to vlákno stale pracuje) ak pre vlákna (alebo len pre to velke) nastavim daemon na true tak prestane pracovať po
         skončení main
@@ -68,6 +72,14 @@ SEKCIA 4
     -vobec nechapem & >> |= teda ziskavanie tých farieb
     Obrazok načítame ako:
     BufferedImage sdf = ImageIO.read(new File("cesta k suboru"));
+    Použitim viacerych vlakien som proces zrychlil o 10-15%, ujo vo video o 50%
+
+    !!!!!
+    Ked ale pridam join do samostatneho for cyklu (nie rovno pod t.start napisat t.join) tak dokazem usetriť aj 70%času
+    prejdem so 650 milisec na 200
+    !!!!!
+
+    video 12 - vysvetlenie RGB
 
 
 
