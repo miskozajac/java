@@ -82,6 +82,9 @@ SEKCIA 4
     video 12 - vysvetlenie RGB
 
 
+    !!!!!!!!!!!!!!!!!!!!
+    HttpServer vytvorenie v ThroughtputHttpServerMain. Dám run a potom môžem zadať v prehliadači:
+    http://localhost:8000/search?word=boss a vráti mi cislo, kolko krát sa slovo boss nachadza v knihe
 
 
 
