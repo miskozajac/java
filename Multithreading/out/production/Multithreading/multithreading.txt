@@ -82,6 +82,15 @@ SEKCIA 4
     video 12 - vysvetlenie RGB
 
 
+    !!!!!!!!!!!!!!!!!!!!
+    HttpServer vytvorenie v ThroughtputHttpServerMain. Dám run a potom môžem zadať v prehliadači:
+    http://localhost:8000/search?word=boss a vráti mi cislo, kolko krát sa slovo boss nachadza v knihe
+
+    ApacheJMeter, stiahol som binary zip, rozbalil na plochu a z terminalu zavolal ako:
+    java -jar C:\Users\user\Desktop\apache-jmeter-5.5\bin/ApacheJMeter.jar
+    -potom ked sa otvori tak dáme meno, to sa potom na lavo prepíše ked dáme klik pravým a tam vybereme threads thread group
+    -atd ako vo videu 14 (7min)
+
 
 
 
