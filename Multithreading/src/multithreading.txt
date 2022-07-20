@@ -94,6 +94,53 @@ SEKCIA 4
 SEKCIA 5:
     video 15: zaciatok len popisanie chovanie v debugery vo Frames a variables, ako sa prida sum frame a ako sa odstrani po prejdeni kroku
     return v metode suma a po prejdene za result sa strati aj main
+    -v main classe, ak dám join pred start druheho vlakna tak sa čaká kým sa dokončí to prvé a počet itemov bude na konci nula
+    -ak ale necham obe vlakna bežať naraz tak vysledne items budú rôzne lebo items++ aj items-- je zložené z troch krokov:
+    1. potiahnutie aktualnej hodnoty items
+    2. zvyšenie/zniženie tejto hodnoty
+    3. zapísanie novej hodnoty do items
+    -ak teda druhe vlakno začne svoje tri kroky kým prvé ich už začalo ale ešte neskončilo vysledne hodnoty bude vtom bordel
+    -teda items++ a items-- niesu atomic operacie, sú zložene z viacerych krokov
+    Atomic operacia je bud/alebo, len jeden krot, napr klasický setter alebo súbor operacii zabezpečení voči konkurencii (sekcia 6)
+
+SEKCIA 6:
+    -treba zariadiť aby nenastávala konkurencia ako vyššie pri items
+    -teda zabezpečiť aby sa nejaký blok kodu choval ako atomic teda taký ktorý sa okolnému svetu javí ako jedna operácia
+
+    public synchronized void m1()
+    public synchronized void m2()
+    -synchronized znamena že ak nejake vlakno na danom objekte vykonáva m1 tak ostatné vlákna na danom objekte nebudú môcť
+    vykonavať m1 ani m2
+
+    Teda v sekcii 5 stačí pridať do klasy Inventar slovičko synchronized pred pridaj a uber metody a je jedno kde a či dám join
+    vysledok bude správny, teda 0 items
+
+    synchronized nemusi byť cela metoda, ale čast v nej zaobalena takto:
+    synchronized(objectInstance) {
+
+    }
+
+    public synchronized void m(){} je to isté ako:
+
+    public void m(){
+        synchronized(this) {
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
