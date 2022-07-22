@@ -101,7 +101,11 @@ SEKCIA 5:
     3. zapísanie novej hodnoty do items
     -ak teda druhe vlakno začne svoje tri kroky kým prvé ich už začalo ale ešte neskončilo vysledne hodnoty bude vtom bordel
     -teda items++ a items-- niesu atomic operacie, sú zložene z viacerych krokov
-    Atomic operacia je bud/alebo, len jeden krot, napr klasický setter alebo súbor operacii zabezpečení voči konkurencii (sekcia 6)
+    Atomic operacia je bud/alebo, len jeden krot, napr klasický setter a getter alebo súbor operacii zabezpečení voči konkurencii (sekcia 6)
+    -pridelovanie k primitivnym typom (okrem long a double lebo tie sú 64bitov dlhé, tie ostatne sú len 32) je tiež atomic,
+    teda: int short byte float char boolean
+    -pri long a double sa môže stať že sa budu nastavovat v dvoch krokoch, najskôr tzv lower 32 bits a druhý do tzv upper 32 bits
+    riešenie je dať pred long a double slovičko volatile to zabezpeči že ukladanie do nich je atomic aj ak je to zlozitejsi vypočet/vyskladanie
 
 SEKCIA 6:
     -treba zariadiť aby nenastávala konkurencia ako vyššie pri items
@@ -112,7 +116,7 @@ SEKCIA 6:
     -synchronized znamena že ak nejake vlakno na danom objekte vykonáva m1 tak ostatné vlákna na danom objekte nebudú môcť
     vykonavať m1 ani m2
 
-    Teda v sekcii 5 stačí pridať do klasy Inventar slovičko synchronized pred pridaj a uber metody a je jedno kde a či dám join
+    Teda v sekcii 5 stačí pridať do klasy Inventar slovičko synchronized pred pridaj a uber metody a je jedno kde a či dám join v maine
     vysledok bude správny, teda 0 items
 
     synchronized nemusi byť cela metoda, ale čast v nej zaobalena takto:
@@ -127,7 +131,7 @@ SEKCIA 6:
 
         }
     }
-
+    -toto riešenie má viac využití, môžem specifikovať viacero synchronized sekcíí a aj určite pre ktorú inštanciu synchronizovať
 
 
 
