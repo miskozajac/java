@@ -101,8 +101,9 @@ SEKCIA 5:
     3. zapísanie novej hodnoty do items
     -ak teda druhe vlakno začne svoje tri kroky kým prvé ich už začalo ale ešte neskončilo vysledne hodnoty bude vtom bordel
     -teda items++ a items-- niesu atomic operacie, sú zložene z viacerych krokov
-    Atomic operacia je bud/alebo, len jeden krot, napr klasický setter a getter alebo súbor operacii zabezpečení voči konkurencii (sekcia 6)
-    -pridelovanie k primitivnym typom (okrem long a double lebo tie sú 64bitov dlhé, tie ostatne sú len 32) je tiež atomic,
+    ATOMIC operacia je bud/alebo, len jeden krot, napr klasický setter a getter alebo súbor operacii zabezpečení voči konkurencii (sekcia 6)
+        -vytvorenie primitivnych typov (okrem long a double lebo tie sú 64bitov dlhé, tie ostatne sú len 32) je tiež atomic,
+        -assigment referencie takže ak ked mám dva objekty tak a = b je atomic
     teda: int short byte float char boolean
     -pri long a double sa môže stať že sa budu nastavovat v dvoch krokoch, najskôr tzv lower 32 bits a druhý do tzv upper 32 bits
     riešenie je dať pred long a double slovičko volatile to zabezpeči že ukladanie do nich je atomic aj ak je to zlozitejsi vypočet/vyskladanie
@@ -133,7 +134,19 @@ SEKCIA 6:
     }
     -toto riešenie má viac využití, môžem specifikovať viacero synchronized sekcíí a aj určite pre ktorú inštanciu synchronizovať
 
+    Vôbec neviem čo sme sa vo videu 18 (obsah Main6 classy) naučili
 
+    RACE CONDITION a DATA RACE
+    RC - napr item++ a item-- ak nemáme zabezpecene so synchronized tak môžu sa nespravne vykonavať navzajom
+    DR - compiler a CPU môže niektore operacie pri ktorych na prvý pohlad nezáleží na poradí vykonať out of order.
+        -urobia to ale len ak je prehodenie stále logicky vporiadku, je to feature, programi sa vdaka tomu vykonavaju rychlejšie
+        napr metoda:
+        public void metoda() {
+            x++;
+            y++;
+        }
+        môže byť vykonaná aj tak že najskôr sa urobí y++ a až potom x++. Pri jednom vlákne to neni problem, pri viacerych môže byť,
+        napr môže nastat situacia že y bude vačšie ako x v istom momente čo by malo byť nemožné
 
 
 

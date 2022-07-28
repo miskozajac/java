@@ -8,8 +8,6 @@ public class Main5DataShering {
         InvUberVlakno iu = new InvUberVlakno(iv);
 
         ip.start();
-
-
         iu.start();
 
         ip.join();
